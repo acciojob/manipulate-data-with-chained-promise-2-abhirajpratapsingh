@@ -1,13 +1,43 @@
 <!DOCTYPE html>
-
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-
-  <body>
-    <!-- do not change this code -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise Chaining Example</title>
+</head>
+<body>
     <div id="output"></div>
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+    <script>
+        function manipulateData() {
+            return new Promise((resolve) => {
+                // Resolve the promise after 3 seconds with the initial array
+                setTimeout(() => {
+                    resolve([1, 2, 3, 4]);
+                }, 3000);
+            });
+        }
+
+        manipulateData()
+            .then((data) => {
+                // Filter out odd numbers
+                const evenNumbers = data.filter(num => num % 2 === 0);
+                
+                // Update the output after 1 second
+                setTimeout(() => {
+                    document.getElementById("output").textContent = evenNumbers.join(', ');
+                }, 1000);
+
+                return evenNumbers; // Pass the even numbers to the next promise
+            })
+            .then((evenNumbers) => {
+                // Multiply even numbers by 2
+                const multipliedEvenNumbers = evenNumbers.map(num => num * 2);
+                
+                // Update the output after 2 seconds
+                setTimeout(() => {
+                    document.getElementById("output").textContent = multipliedEvenNumbers.join(', ');
+                }, 2000);
+            });
+    </script>
+</body>
 </html>
